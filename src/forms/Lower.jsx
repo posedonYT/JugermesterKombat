@@ -18,7 +18,7 @@ export default function Lower(){
                 <p className='treanslator-text'>магазин</p>
             </button>
             <button className='button-translator3'>
-                <img src={UserIco} width='37' height='37' />
+                <img src={UserIco} width='37' height='37' background='none' />
                 <p className='treanslator-text'>профиль</p>
             </button>
         </div>

@@ -16,9 +16,9 @@ function App() {
         </div>
 
         <footer>
-          <dov className='lower'>
+          <div className='lower'>
             <Lower/>
-          </dov>
+          </div>
         </footer>
     </div>
   );

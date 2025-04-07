@@ -6,7 +6,7 @@ import CoinIco from '../../public/coin.svg'
 export default function Home(){
     const [coins, setCoins] = useState(0)
 
-    const handleClick = (e) => {
+    const handleClick = () => {
         setCoins(coins+1)
     }
 
