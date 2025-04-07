@@ -1,0 +1,73 @@
+.fdata-out {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.data {
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    color: gainsboro;
+    background-color: #403C3C;
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+
+.pdata{
+    font-size: 13px;
+}
+
+.button {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100%;
+    max-width: 100%;
+    margin-bottom: 70px;
+  }
+  
+  .button button {
+    aspect-ratio: 1 / 1; /* всегда делает из блока квадрат */
+    width: 60vw; /* можно адаптировать */
+    max-height: 60vh;
+    background-color: gray;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .button-image {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+  
+  .button button {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  
+  .button button:focus {
+    outline: none;
+  }
+  
+  .button button:active {
+    background-color: gray;
+  }
+
+.money{
+    margin-top: 27px;
+    margin-bottom: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

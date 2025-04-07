@@ -1,0 +1,28 @@
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #403C3C, #A69B9B);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@font-face {
+  font-family: JuliusSansOne;
+  src: url(./assets/JuliusSansOne-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'JuliusSansOne', sans-serif;
+  margin: 2px;
+}

@@ -1,0 +1,19 @@
+.main{
+  display: inline;
+  height: 100vw;
+}
+
+.header{
+  margin-left: 6px;
+  
+}
+
+.lower{
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  bottom: 20px;
+  margin-top: auto;
+  margin-right: 4px;
+  margin-left: 4px;
+}

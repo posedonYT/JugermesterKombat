@@ -1,0 +1,31 @@
+.lmain{
+    height: 96px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: #D9D9D9;
+    align-items: center;
+    border-radius: 18px;
+}
+
+.button-translator1{
+    background: none;
+    border: none;
+    margin-top: 28px;
+    margin-bottom: 16px;
+    margin-left: 40px;
+}
+.button-translator2{
+    background: none;
+    border: none;
+    margin-top: 28px;
+    margin-bottom: 16px;
+}
+.button-translator3{
+    background: none;
+    border: none;
+    margin-top: 28px;
+    margin-bottom: 16px;
+    margin-right: 40px;
+}
