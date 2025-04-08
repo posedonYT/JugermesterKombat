@@ -1,6 +1,6 @@
 .lmain{
     height: 96px;
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -14,7 +14,7 @@
     border: none;
     margin-top: 28px;
     margin-bottom: 16px;
-    margin-left: 40px;
+    margin-left: 16px;
 }
 .button-translator2{
     background: none;
@@ -27,5 +27,5 @@
     border: none;
     margin-top: 28px;
     margin-bottom: 16px;
-    margin-right: 40px;
+    margin-right: 16px;
 }
