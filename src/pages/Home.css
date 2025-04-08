@@ -72,3 +72,12 @@
     justify-content: flex-end;
     font-family: 'JuliusSansOne', sans-serif;
 }
+.money-icon{
+    margin-top: 10px;
+    margin-right: 4px;
+}
+
+.counter{
+    font-family: 'Jura', sans-serif;
+    font-size: 52px;
+}

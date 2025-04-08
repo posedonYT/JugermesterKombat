@@ -26,8 +26,8 @@ export default function Home(){
             </div>
             <div>
                 <div className='money'>
-                    <img src={CoinIco} width='36' height='34'/>
-                    <h1 className='counter'>{coins}</h1>
+                    <img className='money-icon' src={CoinIco} width='36' height='34'/>
+                    <p className='counter'>{coins}</p>
                 </div>
                 <div className='button'>
                     <button className='clicker-button' onClick={handleClick}>

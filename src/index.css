@@ -21,6 +21,12 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: Jura;
+  src: url(./assets/Jura.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
   font-family: 'JuliusSansOne', sans-serif;
