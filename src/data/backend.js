@@ -1,7 +1,7 @@
 import axios from "axios";
 import {WebApp} from '@twa-dev/types'
 
-const API_BASE_URL = 'http://localhost:8000'; // Замените на ваш URL бэкенда
+const API_BASE_URL = 'http://176.113.82.88:8000/'; // Замените на ваш URL бэкенда
 
 export function getTgID() {
     const tgData = WebApp.initDataUnsafe
