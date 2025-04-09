@@ -4,26 +4,32 @@ import Jagermester from '/Jagermester.png'
 import CoinIco from '../../public/coin.svg'
 import { addClickCoins, getUserCoins, createOrGetUser, getTgID } from '../data/backend.js'
 
+
 export default function Home() {
     const [coins, setCoins] = useState(0)
-    const [tgId] = useState(getTgID)
+    const [tgId, setTGId] = useState(12345678)
 
     // Загрузка начального количества монет
     useEffect(() => {
-        const initUser = async () => {
+        const init = async () => {
             try {
-                // 1. Создаем пользователя если его нет
-                await createOrGetUser(tgId, "Новый игрок")
+                // 1. Получаем TG ID
+                const id = getTgID();
+                if (!id) throw new Error("TG ID не найден");
+                setTGId(id);
+
+                // 2. Создаем/получаем пользователя
+                await createOrGetUser(id, "Новый игрок");
                 
-                // 2. Загружаем актуальные монеты
-                const currentCoins = await getUserCoins(tgId)
-                setCoins(currentCoins)
+                // 3. Загружаем монеты
+                const currentCoins = await getUserCoins(id);
+                setCoins(currentCoins);
             } catch (error) {
-                console.error('Ошибка инициализации:', error)
+                console.error('Ошибка инициализации:', error);
             }
         }
-        initUser()
-    }, [tgId])
+        init();
+    }, []);
 
     const handleClick = async () => {
         try {

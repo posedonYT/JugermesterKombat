@@ -1,12 +1,14 @@
 import axios from "axios";
-import {WebApp} from '@twa-dev/types'
+const API_BASE_URL = 'http://176.113.82.88:8000'; // Замените на ваш URL бэкенда
+const TG = window.Telegram.WebApp
 
-const API_BASE_URL = 'http://176.113.82.88:8000/'; // Замените на ваш URL бэкенда
 
 export function getTgID() {
-    const tgData = WebApp.initDataUnsafe
-    const tg_id = tgData.user?.id
-    return tg_id
+    // Проверка на доступность WebApp и данных пользователя
+    if (typeof WebApp !== 'undefined' && TG.initDataUnsafe?.user) {
+        return TG.initDataUnsafe.user.id;
+    }
+    return 0; 
 }
 
 export async function createOrGetUser(tg_id, name) {
