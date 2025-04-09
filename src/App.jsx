@@ -1,9 +1,10 @@
-import React from 'react'
+import {React} from 'react'
 import { Routes, Route, Link, Outlet} from 'react-router-dom';
 import Lower from './forms/Lower';
 import './App.css'
 
 function App() {
+
   return (
     <div className='main'>
         <header>

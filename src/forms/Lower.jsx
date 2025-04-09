@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import MineIco from '/maine.svg'
 import UserIco from '/profile.svg'
-import ShopIco from '/friends.svg'
+import ShopIco from '/shop.svg'
 import './Lower.css'
 
 export default function Lower(){
