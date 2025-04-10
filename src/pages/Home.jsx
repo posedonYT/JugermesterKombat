@@ -19,15 +19,14 @@ export default function Home() {
             try {
                 // 1. Получаем TG ID
                 const id = getTgID();
-                if (!id) throw new Error("TG ID не найден");
+                if (!id && id !== 0) throw new Error("TG ID не найден");
                 setTGId(id);
 
                 // 2. Создаем/получаем пользователя
                 const userData = await createOrGetUser(id, "Новый игрок");
                 
-                // 3. Загружаем данные пользователя
-                const currentCoins = await getUserCoins(id);
-                setCoins(currentCoins);
+                // 3. Устанавливаем данные пользователя
+                setCoins(userData.coins || 0);
                 setCoinsPerClick(userData.coins_click || 1);
                 setHourlyCoins(userData.coins_hours || 10);
                 
@@ -55,28 +54,32 @@ export default function Home() {
 
     // Функция для синхронизации с сервером
     const syncWithServer = async () => {
-        if (!isInitializedRef.current || pendingClicksRef.current === 0) return;
+        if (!isInitializedRef.current) return;
         
         try {
-            const clicksToSync = pendingClicksRef.current;
-            pendingClicksRef.current = 0;
-            
-            // Отправляем накопленные клики на сервер
-            await addClickCoins(tgId, clicksToSync);
+            if (pendingClicksRef.current > 0) {
+                const clicksToSync = pendingClicksRef.current;
+                pendingClicksRef.current = 0;
+                
+                // Отправляем накопленные клики на сервер
+                await addClickCoins(tgId, clicksToSync);
+            }
             
             // Получаем актуальное количество монет с сервера
             const serverCoins = await getUserCoins(tgId);
             setCoins(serverCoins);
         } catch (error) {
             console.error('Ошибка синхронизации с сервером:', error);
-            // Возвращаем неотправленные клики обратно в счетчик
-            pendingClicksRef.current += pendingClicksRef.current;
+            // Не сбрасываем счетчик кликов, если произошла ошибка
         }
     };
 
     const handleClick = () => {
         // Мгновенно обновляем счетчик на фронтенде
-        setCoins(prevCoins => prevCoins + coinsPerClick);
+        setCoins(prevCoins => {
+            const newValue = prevCoins + coinsPerClick;
+            return isNaN(newValue) ? coinsPerClick : newValue;
+        });
         
         // Увеличиваем счетчик ожидающих синхронизации кликов
         pendingClicksRef.current += 1;
@@ -98,7 +101,7 @@ export default function Home() {
             <div>
                 <div className='money'>
                     <img className='money-icon' src={CoinIco} width='36' height='34' alt="Монеты"/>
-                    <p className='counter'>{coins}</p>
+                    <p className='counter'>{isNaN(coins) ? 0 : coins}</p>
                 </div>
                 <div className='button'>
                     <button className='clicker-button' onClick={handleClick}>
