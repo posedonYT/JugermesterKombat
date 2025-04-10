@@ -1,15 +1,19 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 import './Home.css'
 import Jagermester from '/Jagermester.png'
 import CoinIco from '../../public/coin.svg'
 import { addClickCoins, getUserCoins, createOrGetUser, getTgID } from '../data/backend.js'
 
-
 export default function Home() {
     const [coins, setCoins] = useState(0)
     const [tgId, setTGId] = useState(12345678)
+    const [coinsPerClick, setCoinsPerClick] = useState(1)
+    const [hourlyCoins, setHourlyCoins] = useState(10)
+    const pendingClicksRef = useRef(0)
+    const syncTimerRef = useRef(null)
+    const isInitializedRef = useRef(false)
 
-    // Загрузка начального количества монет
+    // Инициализация пользователя и загрузка данных
     useEffect(() => {
         const init = async () => {
             try {
@@ -19,41 +23,76 @@ export default function Home() {
                 setTGId(id);
 
                 // 2. Создаем/получаем пользователя
-                await createOrGetUser(id, "Новый игрок");
+                const userData = await createOrGetUser(id, "Новый игрок");
                 
-                // 3. Загружаем монеты
+                // 3. Загружаем данные пользователя
                 const currentCoins = await getUserCoins(id);
                 setCoins(currentCoins);
+                setCoinsPerClick(userData.coins_click || 1);
+                setHourlyCoins(userData.coins_hours || 10);
+                
+                isInitializedRef.current = true;
             } catch (error) {
                 console.error('Ошибка инициализации:', error);
             }
         }
         init();
+
+        // Настройка периодической синхронизации
+        syncTimerRef.current = setInterval(syncWithServer, 10000);
+
+        // Очистка при размонтировании
+        return () => {
+            if (syncTimerRef.current) {
+                clearInterval(syncTimerRef.current);
+            }
+            // Финальная синхронизация при выходе
+            if (pendingClicksRef.current > 0) {
+                syncWithServer();
+            }
+        };
     }, []);
 
-    const handleClick = async () => {
+    // Функция для синхронизации с сервером
+    const syncWithServer = async () => {
+        if (!isInitializedRef.current || pendingClicksRef.current === 0) return;
+        
         try {
-            // Отправляем клик на бэкенд
-            await addClickCoins(tgId)
-            // Получаем обновленные монеты с сервера
-            const updatedCoins = await getUserCoins(tgId)
-            setCoins(updatedCoins)
+            const clicksToSync = pendingClicksRef.current;
+            pendingClicksRef.current = 0;
+            
+            // Отправляем накопленные клики на сервер
+            await addClickCoins(tgId, clicksToSync);
+            
+            // Получаем актуальное количество монет с сервера
+            const serverCoins = await getUserCoins(tgId);
+            setCoins(serverCoins);
         } catch (error) {
-            console.error('Ошибка при клике:', error)
+            console.error('Ошибка синхронизации с сервером:', error);
+            // Возвращаем неотправленные клики обратно в счетчик
+            pendingClicksRef.current += pendingClicksRef.current;
         }
+    };
+
+    const handleClick = () => {
+        // Мгновенно обновляем счетчик на фронтенде
+        setCoins(prevCoins => prevCoins + coinsPerClick);
+        
+        // Увеличиваем счетчик ожидающих синхронизации кликов
+        pendingClicksRef.current += 1;
     }
 
     return(
         <div className='main'>
             <div className='fdata-out'>
                 <div className="data">
-                    <p className='pdata'>Монеты за клик: 1</p>
+                    <p className='pdata'>Монеты за клик: {coinsPerClick}</p>
                 </div>
                 <div className="data">
-                    <p className='pdata'>Монеты для апа: 1м </p>
+                    <p className='pdata'>Монеты для апа: {coinsPerClick * 10}</p>
                 </div>
                 <div className="data">
-                    <p className='pdata'>Прибыль в час: 10</p>
+                    <p className='pdata'>Прибыль в час: {hourlyCoins}</p>
                 </div>
             </div>
             <div>

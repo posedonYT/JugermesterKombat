@@ -1,13 +1,13 @@
 import axios from "axios";
 const API_BASE_URL = 'https://6cfc-31-192-239-18.ngrok-free.app'; // Замените на ваш URL бэкенда
-const TG = window.Telegram.WebApp
-
+const TG = window.Telegram?.WebApp || {}; // Безопасная проверка на существование объекта
 
 export function getTgID() {
     // Проверка на доступность WebApp и данных пользователя
-    if (typeof WebApp !== 'undefined' && TG.initDataUnsafe?.user) {
+    if (TG && TG.initDataUnsafe?.user) {
         return TG.initDataUnsafe.user.id;
     }
+    // Для тестирования можно вернуть тестовый ID
     return 0; 
 }
 
@@ -35,10 +35,13 @@ export async function getUserData(tg_id) {
     }
 }
 
-// Добавление монет за клик
-export async function addClickCoins(tg_id) {
+// Добавление монет за клики - обновленная версия с поддержкой множественных кликов
+export async function addClickCoins(tg_id, clickCount = 1) {
     try {
-        const response = await axios.post(`${API_BASE_URL}/users/click/`, { tg_id });
+        const response = await axios.post(`${API_BASE_URL}/users/click/`, { 
+            tg_id: tg_id,
+            clicks: clickCount 
+        });
         return response.data;
     } catch (error) {
         handleApiError(error);
@@ -90,9 +93,3 @@ export function handleApiError(error) {
         console.error('Network error:', error.message);
     }
 }
-
-// Пример использования:
-// async function initUser() {
-//     const user = await createOrGetUser(123456789, 'Игрок1');
-//     console.log('User data:', user);
-// }
