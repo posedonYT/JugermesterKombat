@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE_URL = 'https://9df0-31-192-239-18.ngrok-free.app'; // Замените на ваш URL бэкенда
+const API_BASE_URL = 'https://6cfc-31-192-239-18.ngrok-free.app'; // Замените на ваш URL бэкенда
 const TG = window.Telegram.WebApp
 
 
