@@ -5,7 +5,7 @@ const TG = window.Telegram?.WebApp || {}; // Безопасная проверк
 // Настройка Axios для лучшей отладки
 const api = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 10000, // Увеличенный таймаут
+    timeout: 3600, // Увеличенный таймаут
     headers: {
         'Content-Type': 'application/json'
     }
@@ -40,17 +40,17 @@ export function getTgID() {
     return 12345678; // Используем конкретный ID для тестирования
 }
 
-function getNameByID() {
+function getName() {
     if (TG && TG.initDataUnsafe?.user) {
         return TG.initDataUnsafe.user.name
     }
     console.log("Have not data about account name")
-    return "New Account"
+    return "New"
 }
 
 export async function createOrGetUser(tg_id) {
     try {
-        const name = getNameByID(tg_id)
+        const name = getName()
         const response = await api.post(`/users/`, {
             tg_id: tg_id,
             name: name
